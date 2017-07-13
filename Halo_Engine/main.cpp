@@ -1,6 +1,6 @@
 //
 //  main.cpp
-//  Halo_Engine
+//  Halo_World
 //
 //  Created by 许兴伦 on 7/2/17.
 //  Copyright © 2017 SparkLight. All rights reserved.
@@ -11,7 +11,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "Engine.hpp"
+#include "World.hpp"
 #include "MovingSystem.hpp"
 
 using namespace std;
@@ -46,16 +46,16 @@ int main(int argc, const char * argv[]) {
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
     
-    Engine* engine = new Engine();
+    World* world = new World();
     
-    engine->AddData<Transform>();
-    engine->AddData<Velocity>();
+    world->AddData<Transform>();
+    world->AddData<Velocity>();
     
-    engine->AddSystem<MovingSystem>();
+    world->AddSystem<MovingSystem>();
     
-    engine->AddEntity<MovingSystem>();
+    world->AddEntity<MovingSystem>();
     
-    engine->Run();
+    world->Run();
     do{
         // Draw nothing, see you in tutorial 2 !
         

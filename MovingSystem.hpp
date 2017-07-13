@@ -1,6 +1,6 @@
 //
 //  MovingSystem.hpp
-//  Halo_Engine
+//  Halo_World
 //
 //  Created by 许兴伦 on 7/4/17.
 //  Copyright © 2017 SparkLight. All rights reserved.
@@ -24,7 +24,7 @@ class MovingSystem:public ISystem{
 public:
     void Update() override;
     std::list<std::type_index>* GetDataTypes() override;
-    void InjectData(std::list<void*> *datas) override;
+    void InjectData(std::list<void*> &datas) override;
     MovingSystem();
 private:
     std::unordered_map<int, Transform*>* transforms;

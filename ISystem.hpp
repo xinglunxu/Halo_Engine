@@ -1,6 +1,6 @@
 //
 //  ISystem.hpp
-//  Halo_Engine
+//  Halo_World
 //
 //  Created by 许兴伦 on 7/4/17.
 //  Copyright © 2017 SparkLight. All rights reserved.
@@ -13,6 +13,7 @@
 #include <list>
 #include <typeindex>
 #include <unordered_set>
+#include <unordered_map>
 #include <iostream>
 
 using namespace std;
@@ -21,7 +22,7 @@ class ISystem{
 public:
     virtual void Update()=0;
     virtual std::list<std::type_index>* GetDataTypes()=0;
-    virtual void InjectData(std::list<void*>* datas)=0;
+    virtual void InjectData(std::list<void*> &datas)=0;
     void AddEntity(int id){
         if(entityIds.find(id)==entityIds.end()){
             entityIds.insert(id);

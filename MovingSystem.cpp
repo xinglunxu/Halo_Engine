@@ -1,6 +1,6 @@
 //
 //  MovingSystem.cpp
-//  Halo_Engine
+//  Halo_World
 //
 //  Created by 许兴伦 on 7/4/17.
 //  Copyright © 2017 SparkLight. All rights reserved.
@@ -42,11 +42,11 @@ std::list<type_index>* MovingSystem::GetDataTypes(){
     return retList;
 }
 
-void MovingSystem::InjectData(std::list<void *>* datas){
+void MovingSystem::InjectData(std::list<void*> &datas){
     
-    void* transformP = datas->front(); datas->pop_front();
-    this->transforms = static_cast<std::unordered_map<int, Transform*>*>(transformP);
-    void* velocityP = datas->front(); datas->pop_front();
+    void* transformP = datas.front(); datas.pop_front();
+    this->transforms = static_cast<unordered_map<int, Transform*>*>(transformP);
+    void* velocityP = datas.front(); datas.pop_front();
     this->velocities = static_cast<std::unordered_map<int, Velocity*>*>(velocityP);
 }
 

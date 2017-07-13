@@ -1,13 +1,13 @@
 //
-//  Engine.hpp
-//  Halo_Engine
+//  World.hpp
+//  Halo_World
 //
 //  Created by 许兴伦 on 7/4/17.
 //  Copyright © 2017 SparkLight. All rights reserved.
 //
 
-#ifndef Engine_hpp
-#define Engine_hpp
+#ifndef World_hpp
+#define World_hpp
 
 #include <stdio.h>
 #include <iostream>
@@ -27,12 +27,12 @@ struct AddEntityClass;
 
 
 
-class Engine{
+class World{
     friend struct AddEntityClass<>;
     template <class ... A> friend struct AddEntityClass;
 public:
     void Run();
-    Engine();
+    World();
     template <typename T> void AddSystem();
     template <typename T> void AddData();
     template <typename ... types> int AddEntity();
@@ -40,8 +40,8 @@ public:
 private:
     int frame_num;
     void Update();
-    unordered_map<type_index, ISystem*>* systems;
-    unordered_map<type_index, void*>* datas;
+    unordered_map<type_index, ISystem*> systems;
+    unordered_map<type_index, unordered_map<int, void*>*> datas;
     unordered_map<type_index, function<void(int)>> dataFunctions;
     static int nextId;
     template <typename T, typename ... res> void _AddEntity(int id);
@@ -63,37 +63,37 @@ private:
 template <typename... A>
 struct AddEntityClass {
 public:
-    static void call(int id, Engine* engine){
-        engine->_AddEntity<A...>(id);
+    static void call(int id, World* World){
+        World->_AddEntity<A...>(id);
     }
 };
 
 template <>
 struct AddEntityClass<> {
 public:
-    static void call(int id, Engine* engine){}
+    static void call(int id, World* World){}
 };
 
 
 template <typename T>
-void Engine::AddSystem(){
+void World::AddSystem(){
     T* system = new T();
-    (*systems)[type_index(typeid(T))] = system;
+    systems[type_index(typeid(T))] = system;
     std::list<type_index>* typeInfos = system->GetDataTypes();
-    std::list<void*>* datasList = new std::list<void*>();
+    std::list<void*> datasList;
     for(auto it = typeInfos->begin(); it!=typeInfos->end();it++){
         type_index ti = *it;
-        datasList->insert(datasList->end(), (*datas)[ti]);
+        void* voidP = static_cast<void*>(datas[ti]);
+        datasList.insert(datasList.end(), voidP);
     }
     system->InjectData(datasList);
 }
 
 
 template <typename T>
-void Engine::AddData(){
+void World::AddData(){
     unordered_map<int, T*>* data = new unordered_map<int, T*>;
-    void* dataP = static_cast<void*>(data);
-    (*datas)[type_index(typeid(T))] = dataP;
+    datas[type_index(typeid(T))] = (unordered_map<int, void*>*)data;
     type_index ti = type_index(typeid(T));
     dataFunctions[ti] = [this](int id){
         this->AddEntityData<T>(id);
@@ -102,7 +102,7 @@ void Engine::AddData(){
 
 
 template <typename ... types>
-int Engine::AddEntity(){
+int World::AddEntity(){
     int entityId = (nextId++);
     _AddEntity<types...>(entityId);
     return entityId;
@@ -111,8 +111,8 @@ int Engine::AddEntity(){
 //private____________________________________
 
 template <typename T, typename ... res>
-void Engine::_AddEntity(int id){
-    ISystem *system = (*systems)[type_index(typeid(T))];
+void World::_AddEntity(int id){
+    ISystem *system = systems[type_index(typeid(T))];
     system->AddEntity(id);
     list<type_index>* dataTypes = system->GetDataTypes();
     for(auto it = dataTypes->begin(); it!=dataTypes->end();it++){
@@ -124,9 +124,9 @@ void Engine::_AddEntity(int id){
 
 
 template <typename dataType>
-void Engine::AddEntityData(int id){
+void World::AddEntityData(int id){
     type_index ti = type_index(typeid(dataType));
-    void* dataP = (*datas)[ti];
+    void* dataP = datas[ti];
     unordered_map<int, dataType*>* data = static_cast<unordered_map<int, dataType*>*>(dataP);
     if(data->find(id)==data->end()){
         (*data)[id] = new dataType();
@@ -134,4 +134,4 @@ void Engine::AddEntityData(int id){
 }
 
 
-#endif /* Engine_hpp */
+#endif /* World_hpp */
