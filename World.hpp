@@ -44,7 +44,9 @@ private:
     unordered_map<type_index, unordered_map<int, void*>*> datas;
     unordered_map<type_index, function<void(int)>> dataFunctions;
     static int nextId;
-    template <typename T, typename ... res> void _AddEntity(int id);
+    template <typename T, typename ... res> void _AddEntity(int id, typename enable_if<sizeof...(res)!=0, int>::type = 0);
+    template <typename T> void _AddEntity(int id);
+    template <typename T> void __AddEntity(int id);
     template <typename dataType> void AddEntityData(int id);
 };
 
@@ -59,22 +61,6 @@ private:
 //–––––––––––––––––––––––––––––––––––––
 //Template Initiation
 //-------------------------------------
-
-template <typename... A>
-struct AddEntityClass {
-public:
-    static void call(int id, World* World){
-        World->_AddEntity<A...>(id);
-    }
-};
-
-template <>
-struct AddEntityClass<> {
-public:
-    static void call(int id, World* World){}
-};
-
-
 template <typename T>
 void World::AddSystem(){
     T* system = new T();
@@ -111,7 +97,19 @@ int World::AddEntity(){
 //private____________________________________
 
 template <typename T, typename ... res>
+void World::_AddEntity(int id, typename enable_if<sizeof...(res)!=0, int>::type){
+    __AddEntity<T>(id);
+//    AddEntityClass<res...>::call(id, this);
+    _AddEntity<res...>(id);
+}
+
+template <typename T>
 void World::_AddEntity(int id){
+    __AddEntity<T>(id);
+}
+
+template <typename T>
+void World::__AddEntity(int id){
     ISystem *system = systems[type_index(typeid(T))];
     system->AddEntity(id);
     list<type_index>* dataTypes = system->GetDataTypes();
@@ -119,7 +117,6 @@ void World::_AddEntity(int id){
         type_index ti = *it;
         dataFunctions[ti](id);
     }
-    AddEntityClass<res...>::call(id, this);
 }
 
 
