@@ -14,6 +14,7 @@
 		7EA398551F09E7AD0052C868 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA398541F09E7AD0052C868 /* libglfw.3.2.dylib */; };
 		7EA398571F09E7DF0052C868 /* libGLEW.2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA398561F09E7DF0052C868 /* libGLEW.2.0.0.dylib */; };
 		7EA398731F0B81F30052C868 /* MovingSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EA398711F0B81F30052C868 /* MovingSystem.cpp */; };
+		7EB72A741F1C9B90004B64FD /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EB72A721F1C9B90004B64FD /* Component.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +44,8 @@
 		7EA3986E1F0B81570052C868 /* ISystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ISystem.hpp; sourceTree = "<group>"; };
 		7EA398711F0B81F30052C868 /* MovingSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovingSystem.cpp; sourceTree = "<group>"; };
 		7EA398721F0B81F30052C868 /* MovingSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MovingSystem.hpp; sourceTree = "<group>"; };
+		7EB72A721F1C9B90004B64FD /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
+		7EB72A731F1C9B90004B64FD /* Component.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +109,8 @@
 				7EA3986E1F0B81570052C868 /* ISystem.hpp */,
 				7E4C0BD81F1753CF007E1B8F /* World.cpp */,
 				7E4C0BD91F1753CF007E1B8F /* World.hpp */,
+				7EB72A721F1C9B90004B64FD /* Component.cpp */,
+				7EB72A731F1C9B90004B64FD /* Component.hpp */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -194,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EA398471F08FA110052C868 /* main.cpp in Sources */,
+				7EB72A741F1C9B90004B64FD /* Component.cpp in Sources */,
 				7EA398731F0B81F30052C868 /* MovingSystem.cpp in Sources */,
 				7E4C0BDA1F1753CF007E1B8F /* World.cpp in Sources */,
 			);

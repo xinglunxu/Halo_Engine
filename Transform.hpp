@@ -10,8 +10,9 @@
 #define Transform_hpp
 
 #include <stdio.h>
+#include "Component.hpp"
 
-class Transform{
+class Transform :public Component<Transform>{
 public:
     float pX;
     float pY;

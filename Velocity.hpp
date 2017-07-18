@@ -10,8 +10,9 @@
 #define Velocity_hpp
 
 #include <stdio.h>
+#include "Component.hpp"
 
-class Velocity{
+class Velocity : Component<Velocity>{
 public:
     float x;
     float y;
